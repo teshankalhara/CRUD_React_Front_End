@@ -3,13 +3,22 @@ import NavBar from "../../components/NavBar"
 import ProductType from "../../types/ProductType"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
 
 function CreateOrder() {
+    const { isAuthenticated, jwtToken } = useAuth()
+
     const [products, setProducts] = useState<ProductType[]>([])
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        }
+    }
 
     async function loadProduct() {
         try {
-            const response = await axios.get("http://localhost:9000/products")
+            const response = await axios.get("http://localhost:9000/products",config)
             console.log(response)
             setProducts(response.data)
         } catch (error: any) {
@@ -18,8 +27,10 @@ function CreateOrder() {
     }
 
     useEffect(() => {
-        loadProduct()
-    }, [])
+        if(isAuthenticated){
+            loadProduct()
+        }
+    }, [isAuthenticated])
 
     const [orderedProduct, setOrderedProduct] = useState<ProductType[]>([])
     const [total, setTotal] = useState<number>(0)
@@ -47,7 +58,7 @@ function CreateOrder() {
         })
 
         try {
-            await axios.post("http://localhost:9000/orders", { productIds: productIds })
+            await axios.post("http://localhost:9000/orders", { productIds: productIds },config)
             navigate("/order")
         } catch (error) {
             console.log(error)

@@ -3,8 +3,11 @@ import NavBar from "../components/NavBar"
 import { useEffect, useState } from "react"
 import ProductType from "../types/ProductType"
 import CategoryType from "../types/CategoryType"
+import { useAuth } from "../context/AuthContext"
 
 function Product() {
+    const { isAuthenticated, jwtToken } = useAuth()
+
     const [products, setProduct] = useState<ProductType[]>([])
     const [productName, setProductName] = useState<string>("")
     const [productPrice, setProductPrice] = useState<number>(0.0)
@@ -13,21 +16,29 @@ function Product() {
 
     const [categories, setCategories] = useState<CategoryType[]>([])
 
+    const config = {
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        }
+    }
+
     async function loadProducts() {
-        const response = await axios.get("http://localhost:9000/products")
+        const response = await axios.get("http://localhost:9000/products", config)
         setProduct(response.data)
     }
 
     async function loadCategories() {
-        const response = await axios.get("http://localhost:9000/categories")
+        const response = await axios.get("http://localhost:9000/categories", config)
         console.log(response)
         setCategories(response.data)
     }
 
     useEffect(function () {
-        loadProducts()
-        loadCategories()
-    }, [])
+        if (isAuthenticated) {
+            loadProducts()
+            loadCategories()
+        }
+    }, [isAuthenticated])
 
     function handleProductName(event: any) {
         setProductName(event.target.value)

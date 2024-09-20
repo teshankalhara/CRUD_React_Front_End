@@ -2,20 +2,31 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import CategoryType from "../types/CategoryType"
 import NavBar from "../components/NavBar"
+import { useAuth } from "../context/AuthContext"
 
 function Category() {
+    const { isAuthenticated, jwtToken } = useAuth()
+
     const [categories, setCategories] = useState<CategoryType[]>([])
     const [categoryName, setCategoryName] = useState<string>("")
 
     async function loadCategories() {
-        const response = await axios.get("http://localhost:9000/categories")
+        const response = await axios.get("http://localhost:9000/categories", config)
         console.log(response)
         setCategories(response.data)
     }
 
+    const config = {
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        }
+    }
+
     useEffect(function () {//page load to do something want
-        loadCategories() // function that will be triggered at the side effect
-    }, [])//[] dependency array, if it is empty it will be triggered only one,
+        if (isAuthenticated) {
+            loadCategories() // function that will be triggered at the side effect
+        }
+    }, [isAuthenticated])//[] dependency array, if it is empty it will be triggered only one,
     // we can get change value example category name every time category name change it wll be update
 
     function handleCategoryName(event: any) {
@@ -26,7 +37,7 @@ function Category() {
         const data = {
             name: categoryName
         }
-        const response = await axios.post("http://localhost:9000/categories", data)
+        const response = await axios.post("http://localhost:9000/categories", data, config)
         console.log(response)
         loadCategories()
         setCategoryName("")

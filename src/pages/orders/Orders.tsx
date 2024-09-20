@@ -3,14 +3,22 @@ import NavBar from "../../components/NavBar"
 import OrderType from "../../types/OrderType"
 import axios from "axios"
 import { Link } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
 
 function Order() {
+    const { isAuthenticated, jwtToken } = useAuth()
 
     const [orders, setOrders] = useState<OrderType[]>([])
 
+    const config = {
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        }
+    }
+
     async function loadOrders() {
         try {
-            const response = await axios.get("http://localhost:9000/orders")
+            const response = await axios.get("http://localhost:9000/orders", config)
             console.log(response)
             setOrders(response.data)
         } catch (error: any) {
@@ -19,8 +27,10 @@ function Order() {
     }
 
     useEffect(function () {
-        loadOrders()
-    }, [])
+        if (isAuthenticated) {
+            loadOrders()
+        }
+    }, [isAuthenticated])
 
     return (
         <>
