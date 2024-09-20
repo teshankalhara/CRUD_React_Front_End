@@ -1,7 +1,5 @@
 import { useState } from "react"
-import Vehicle from "../components/Vehicle"
 import NavBar from "../components/NavBar"
-import { useAuth } from "../context/AuthContext"
 
 function Home() {
     //hook-use state
@@ -25,14 +23,14 @@ function Home() {
 
                 <div className="container mx-auto">
                     <label>Enter username: </label>
-                    <input className="text-slate-600 font-sm block mb-2 p-2 border border-slate-300 rounded-lg mb-4" type='text' onChange={handleInputChange} />
+                    <input className="text-slate-600 font-sm block p-2 border border-slate-300 rounded-lg mb-4" type='text' onChange={handleInputChange} />
                 </div>
 
                 <div className="container mx-auto">
                     <h1 className="mb-1">Count: {count}</h1>
                     <button onClick={increaseCount} className="mb-5 py-3 px-4 bg-slate-900 text-white rounded-lg hover:bg-slate-700 text-sm">Increase</button>
                 </div>
-                
+
                 {
                     /*
                     <Vehicle title="BMW" description="M3GTR" />
