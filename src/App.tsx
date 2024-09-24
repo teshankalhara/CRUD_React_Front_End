@@ -9,7 +9,7 @@ import Product from './pages/Product'
 import Order from './pages/orders/Orders'
 import CreateOrder from './pages/orders/CreateOrder'
 import { AuthProvider } from './context/AuthContext'
-import Login from './pages/auth/login'
+import Login from './pages/auth/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 
 //parent component
