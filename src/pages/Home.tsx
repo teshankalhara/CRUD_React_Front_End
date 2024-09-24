@@ -1,6 +1,5 @@
 import { useState } from "react"
 import NavBar from "../components/NavBar"
-import { Link } from "react-router-dom"
 
 function Home() {
     //hook-use state
