@@ -19,8 +19,10 @@ function App() {//functional component
       <BrowserRouter>
         <Routes>
           {/* protected routes - need login to access*/}
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+
           <Route element={<ProtectedRoute />}>
-            <Route path='/' element={<Home />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/category' element={<Category />} />
             <Route path='/product' element={<Product />} />
@@ -29,7 +31,6 @@ function App() {//functional component
             <Route path='/order' element={<Order />} />
             <Route path='/order/create' element={<CreateOrder />} />
           </Route>
-          <Route path='/login' element={<Login />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

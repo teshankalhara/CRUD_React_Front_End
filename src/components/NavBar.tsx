@@ -1,8 +1,9 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 
 function NavBar() {
     const { logout, isAuthenticated } = useAuth()
+    const navigate=useNavigate()
 
     const navigation = [
         { name: "Home", path: "/" },
@@ -12,10 +13,6 @@ function NavBar() {
         { name: "Product", path: "/product" },
         { name: "Order", path: "/order" }
     ]
-
-    if (!isAuthenticated) {
-        navigation.push({ name: "Login", path: "/login" })
-    }
 
     const location = useLocation()
     return (
@@ -39,9 +36,11 @@ function NavBar() {
                         )
                     })
                 }
-                {isAuthenticated &&
+                {isAuthenticated?(
                     <button onClick={logout} className="mx-8 py-3 px-4 bg-red-600 text-white rounded-lg hover:bg-red-800 text-sm" type="button">Logout</button>
-                }
+                ):(
+                    <button onClick={()=>{navigate("/login")}} className="mx-8 py-3 px-4 bg-red-600 text-white rounded-lg hover:bg-red-800 text-sm" type="button">Login</button>
+                )}
             </ul>
         </nav>
     )
