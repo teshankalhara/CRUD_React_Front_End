@@ -14,6 +14,10 @@ function Home() {
     function increaseCount() {
         setCount(count + 1)
     }
+    
+    function resetCount() {
+        setCount(0)
+    }
 
     return (
         <>
@@ -28,7 +32,10 @@ function Home() {
 
                 <div className="container mx-auto">
                     <h1 className="mb-1">Count: {count}</h1>
-                    <button onClick={increaseCount} className="mb-5 py-3 px-4 bg-slate-900 text-white rounded-lg hover:bg-slate-700 text-sm">Increase</button>
+                    <div className="block">
+                    <button onClick={increaseCount} className="mb-5 mx-3 py-3 px-4 bg-slate-900 text-white rounded-lg hover:bg-slate-700 text-sm">Increase Count</button>
+                    <button onClick={resetCount} className="mb-5 mx-3 py-3 px-4 bg-slate-900 text-white rounded-lg hover:bg-slate-700 text-sm">Reset Count</button>
+                    </div>
                 </div>
 
                 {
