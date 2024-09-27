@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext"
 
 function NavBar() {
     const { logout, isAuthenticated } = useAuth()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const navigation = [
         { name: "Home", path: "/" },
@@ -18,10 +18,19 @@ function NavBar() {
     return (
         <nav>
             <ul style={{ listStyle: 'none' }}>
+                <li className="inline-flex mx-3 my-4">
+                    <Link
+                        to="/"
+                        style={{
+                            color: location.pathname === "/" ? 'red' : 'blue',
+                            textDecoration: 'none'
+                        }}>
+                        Home
+                    </Link>
+                </li>
                 {
-                    navigation.map((link, index) => {
+                    isAuthenticated && navigation.slice(1).map((link, index) => {
                         const isActive = location.pathname === link.path || (link.name === "Order" && location.pathname === "/order/create")
-
                         return (
                             <li key={index} className="inline-flex mx-3 my-4">
                                 <Link
@@ -36,10 +45,10 @@ function NavBar() {
                         )
                     })
                 }
-                {isAuthenticated?(
+                {isAuthenticated ? (
                     <button onClick={logout} className="mx-8 py-3 px-4 bg-red-600 text-white rounded-lg hover:bg-red-800 text-sm" type="button">Logout</button>
-                ):(
-                    <button onClick={()=>{navigate("/login")}} className="mx-8 py-3 px-4 bg-red-600 text-white rounded-lg hover:bg-red-800 text-sm" type="button">Login</button>
+                ) : (
+                    <button onClick={() => { navigate("/login") }} className="mx-8 py-3 px-4 bg-red-600 text-white rounded-lg hover:bg-red-800 text-sm" type="button">Login</button>
                 )}
             </ul>
         </nav>
